@@ -64,31 +64,25 @@ print(device, args.device)
 train_transform_list_CG = [
     video_transforms.RandomRotation(5),
     video_transforms.CenterCrop((72, 72)),
-    # RandomDropSlice(),
     volume_transforms.ClipToTensor(channel_nb=3, div_255=False),
-    # Padding(args.num_slices),
     Interpolate(args.num_slices),
 ]
 train_transform_list_IS = [
     video_transforms.RandomRotation(5),
     video_transforms.CenterCrop((50, 50)),
     video_transforms.Resize((72, 72)),
-    # RandomDropSlice(),
     volume_transforms.ClipToTensor(channel_nb=3, div_255=False),
-    # Padding(args.num_slices),
     Interpolate(args.num_slices),
 ]
 valid_transform_list_CG = [
     video_transforms.CenterCrop((72, 72)),
     volume_transforms.ClipToTensor(channel_nb=3, div_255=False),
-    # Padding(args.num_slices),
     Interpolate(args.num_slices),
 ]
 valid_transform_list_IS = [
     video_transforms.CenterCrop((50, 50)),
     video_transforms.Resize((72, 72)),
     volume_transforms.ClipToTensor(channel_nb=3, div_255=False),
-    # Padding(args.num_slices),
     Interpolate(args.num_slices),
 ]
 train_transform_CG = video_transforms.Compose(train_transform_list_CG)
@@ -268,7 +262,6 @@ def train():
             max_lr=args.lr, anneal_strategy='cos'
         )
 
-        # 記得改class weight
         criterion_CG = nn.CrossEntropyLoss(weight=class_weight_CG).to(device)
         criterion_IS = nn.CrossEntropyLoss(weight=class_weight_IS).to(device)
 
